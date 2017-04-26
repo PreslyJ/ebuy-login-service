@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <title>SIMS | Log in</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="<%=request.getLocalAddr() %>/sims-login-service/bootstrap.min.css">
-  <link rel="stylesheet" href="<%=request.getHeader("X-Forwarded-Host") %>/sims-login-service/login1.css">
-  <link rel="stylesheet" href="<%=request.getRequestURL() %>/sims-login-service/AdminLTE.min.css"/>
-  <link rel="stylesheet" href="<%=request.getRequestURL() %>/sims-login-service/custonCSS.css"/>
+  <link rel="stylesheet" href="<%=request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath()%>/bootstrap.min.css">
+  <link rel="stylesheet" href="<%=request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath()%>/login1.css">
+  <link rel="stylesheet" href="<%=request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath()%>/AdminLTE.min.css"/>
+  <link rel="stylesheet" href="<%=request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath()%>/custonCSS.css"/>
 
 </head>
 <body class="hold-transition login-page">
