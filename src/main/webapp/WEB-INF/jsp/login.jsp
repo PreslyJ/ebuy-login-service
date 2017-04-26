@@ -32,7 +32,7 @@
           <button class="btn btn-lg btn-primary btn-block" type="submit" id="login_button" >
             Sign In
           </button>
-          <input type="hidden" name="target" value="TARGET">
+          <input type="hidden" name="target" value="<%=response.getHeader("X-Target")%>">
 
         </form>
 
@@ -44,3 +44,11 @@
 
 </body>
 </html>
+
+<!-- <script>
+    var req = new XMLHttpRequest();
+    req.open('GET', document.location, false);
+    req.send(null);
+    var target = req.getResponseHeader('X-Target').toLowerCase();
+    document.getElementsByName("target")[0].value =target;
+</script> -->
