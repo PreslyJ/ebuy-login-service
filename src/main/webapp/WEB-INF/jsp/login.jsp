@@ -5,7 +5,7 @@
   <title>SIMS | Log in</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="<%=request.getHeader("X-FORWARDED-FOR") %>/sims-login-service/bootstrap.min.css">
-  <link rel="stylesheet" href="<%=request.getRequestURL() %>/sims-login-service/login1.css">
+  <link rel="stylesheet" href="<%=request.getHeader("X-Forwarded-Host") %>/sims-login-service/login1.css">
   <link rel="stylesheet" href="<%=request.getRequestURL() %>/sims-login-service/AdminLTE.min.css"/>
   <link rel="stylesheet" href="<%=request.getRequestURL() %>/sims-login-service/custonCSS.css"/>
 
