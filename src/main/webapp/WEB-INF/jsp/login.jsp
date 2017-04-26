@@ -147,7 +147,7 @@
     var req = new XMLHttpRequest();
     req.open('GET', document.location, false);
     req.send(null);
-    var target = req.getResponseHeader('X-Target').toLowerCase();
+    var target = req.getResponseHeader('X-Target');
     document.getElementsByName("target")[0].value =target;
 
 </script>
