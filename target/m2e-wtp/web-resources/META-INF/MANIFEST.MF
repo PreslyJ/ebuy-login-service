@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Implementation-Title: sims login service
-Implementation-Version: 1.0
+Implementation-Version: 1.0.0
 Built-By: presly
-Implementation-Vendor-Id: org.springframework.boot
+Implementation-Vendor-Id: com.ctf.sims.login
 Build-Jdk: 1.8.0_111
 Implementation-URL: http://projects.spring.io/spring-boot/sims-login-s
  ervice/
