@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <title>SIMS | Log in</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="/bootstrap.min.css">
-  <link rel="stylesheet" href="/login.css">
-  <link rel="stylesheet" href="/AdminLTE.min.css"/>
-  <link rel="stylesheet" href="/custonCSS.css"/>
+  <link rel="stylesheet" href="bootstrap.min.css">
+  <link rel="stylesheet" href="login.css">
+  <link rel="stylesheet" href="AdminLTE.min.css"/>
+  <link rel="stylesheet" href="custonCSS.css"/>
 
 </head>
 <body class="hold-transition login-page">
