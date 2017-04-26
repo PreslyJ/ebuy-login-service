@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>SIMS | Log in</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="<%=request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath()%>/bootstrap.min.css">
+  <link rel="stylesheet" href="<%=request.getHeader("X-Forwarded-Host") + request.getContextPath()%>/bootstrap.min.css">
   <link rel="stylesheet" href="<%=request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath()%>/login1.css">
   <link rel="stylesheet" href="<%=request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath()%>/AdminLTE.min.css"/>
   <link rel="stylesheet" href="<%=request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath()%>/custonCSS.css"/>
