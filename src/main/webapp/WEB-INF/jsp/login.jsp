@@ -3,11 +3,14 @@
 <head>
   <meta charset="utf-8">
   <title>SIMS | Log in</title>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="baseURL" value="${fn:replace(pageContext.request.requestURL, pageContext.request.requestURI, pageContext.request.contextPath)}" />
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="bootstrap.min.css">
-  <link rel="stylesheet" href="login1.css">
-  <link rel="stylesheet" href="AdminLTE.min.css"/>
-  <link rel="stylesheet" href="custonCSS.css"/>
+  <link rel="stylesheet" href="${baseURL}/sims-login-service/bootstrap.min.css">
+  <link rel="stylesheet" href="${baseURL}/sims-login-service/login1.css">
+  <link rel="stylesheet" href="${baseURL}/sims-login-service/AdminLTE.min.css"/>
+  <link rel="stylesheet" href="${baseURL}/sims-login-service/custonCSS.css"/>
 
 </head>
 <body class="hold-transition login-page">
