@@ -4,12 +4,14 @@ package com.ctf.sims.login.controller;
 import java.util.Base64;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.ctf.sims.login.model.UserLogin;
 
@@ -37,4 +39,23 @@ public class LoginController  {
 
 	}
 
+	@CrossOrigin
+	@PostMapping("/logout")
+	public RedirectView  logout(HttpServletRequest request,HttpServletResponse response){
+
+		Cookie[] cookies = request.getCookies();
+		if(cookies!=null)
+			for (int i = 0; i < cookies.length; i++) {
+			 cookies[i].setMaxAge(0);
+			 response.addCookie(cookies[i]);
+			}
+		
+		RedirectView redirectView = new RedirectView();
+		
+		redirectView.setUrl(request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() );
+	    
+		return redirectView;
+
+	}
+	
 }
