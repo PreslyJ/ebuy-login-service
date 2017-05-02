@@ -23,7 +23,7 @@ public class LoginController  {
 		
 		String enc=userLogin.getUsername()+":"+userLogin.getPassword();
 		
-		String encodedStr=Base64.getEncoder().withoutPadding().encodeToString(enc.getBytes());
+		String encodedStr=Base64.getEncoder().encodeToString(enc.getBytes());
 		
 		Cookie cookie = new Cookie("nginxauth", encodedStr);
 	    cookie.setHttpOnly(true);
