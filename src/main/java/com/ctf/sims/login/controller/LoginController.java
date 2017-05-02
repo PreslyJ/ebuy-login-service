@@ -23,9 +23,10 @@ public class LoginController  {
 		
 		String enc=userLogin.getUsername()+":"+userLogin.getPassword();
 		
-		String encodedStr=Base64.getEncoder().encodeToString(enc.getBytes());
+		String encodedStr=Base64.getEncoder().withoutPadding().encodeToString(enc.getBytes());
 		
 		Cookie cookie = new Cookie("nginxauth", encodedStr);
+		cookie.setVersion(0);
 	    cookie.setHttpOnly(true);
 	   
 	    response.addCookie(cookie);
@@ -48,7 +49,7 @@ public class LoginController  {
 			 response.addCookie(cookies[i]);
 			}
 		
-		response.setHeader("Location", "/");
+		response.setHeader("Location", "/login");
 	    
 		return new ResponseEntity(org.springframework.http.HttpStatus.FOUND);
 
