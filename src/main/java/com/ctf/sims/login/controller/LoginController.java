@@ -1,6 +1,8 @@
 package com.ctf.sims.login.controller;
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Base64;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -26,18 +28,24 @@ public class LoginController  {
 	@PostMapping("/login")
 	public ResponseEntity  redirectToTarget(@ModelAttribute UserLogin userLogin,HttpServletResponse response){
 		
-		String enc=userLogin.getUsername()+":"+userLogin.getPassword();
-		
-		String encodedStr=Base64.getEncoder().encodeToString(enc.getBytes());
-		
-		Cookie cookie = new Cookie("nginxauth", encodedStr);
-	    cookie.setHttpOnly(true);
-	   
-	    log.error("Cookie VAL==>   "+cookie.getValue());
-	  
-	    response.addCookie(cookie);
-	    response.setHeader("Location", userLogin.getTarget());
-	  
+		try {
+			String enc=userLogin.getUsername()+":"+userLogin.getPassword();
+			
+			String encodedStr=Base64.getEncoder().encodeToString(enc.getBytes());
+			
+			String safeCookieName = URLEncoder.encode("nginxauth", "UTF-8");
+			String safeCookieValue = URLEncoder.encode(encodedStr, "UTF-8");
+			
+			Cookie cookie = new Cookie(safeCookieName, safeCookieValue);
+			cookie.setHttpOnly(true);
+   
+			log.error("Cookie VAL==>   "+cookie.getValue());
+  
+			response.addCookie(cookie);
+			response.setHeader("Location", userLogin.getTarget());
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 	    
 	    return new ResponseEntity(org.springframework.http.HttpStatus.FOUND);
 
