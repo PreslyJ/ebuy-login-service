@@ -5,6 +5,9 @@ import java.util.Base64;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,6 +17,8 @@ import com.ctf.sims.login.model.UserLogin;
 
 @RestController
 public class LoginController  {
+	
+	private static final Logger log = LoggerFactory.getLogger(LoginController.class);
 	
 	@SuppressWarnings("rawtypes")
 	@ModelAttribute
@@ -28,6 +33,8 @@ public class LoginController  {
 		Cookie cookie = new Cookie("nginxauth", encodedStr);
 	    cookie.setHttpOnly(true);
 	   
+	    log.error("Cookie VAL==>   "+cookie.getValue());
+	  
 	    response.addCookie(cookie);
 	    response.setHeader("Location", userLogin.getTarget());
 	  
@@ -44,6 +51,7 @@ public class LoginController  {
 		Cookie[] cookies = request.getCookies();
 		if(cookies!=null)
 			for (int i = 0; i < cookies.length; i++) {
+			 log.error("Cookie VAL==>   "+cookies[0].getValue());	
 			 cookies[i].setMaxAge(0);
 			 response.addCookie(cookies[i]);
 			}
