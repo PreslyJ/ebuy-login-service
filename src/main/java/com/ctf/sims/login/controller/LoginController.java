@@ -47,7 +47,7 @@ public class LoginController  {
 			Cookie cookie = new Cookie("nginxauth", originalString);
 			cookie.setHttpOnly(true);
    
-			log.error("Cookie VAL==>   "+cookie.getValue());
+			log.error("Cookie VAL===>   "+cookie.getValue());
   
 			response.addCookie(cookie);
 			response.setHeader("Location", userLogin.getTarget());
