@@ -65,38 +65,37 @@
 	</dependencies>
 	<build>
 		<plugins>
-		<plugin>
-			<groupId>io.fabric8</groupId>
-			<artifactId>docker-maven-plugin</artifactId>
-			<configuration>
-				<images>
-					<image>
-						<name>${service.registry}/${project.artifactId}:${service.buildno}</name>
-						<build>
-							<from>java:8</from>
-							<volumes>
-								<volume>/tmp</volume>
-							</volumes>
-							<ports>
-								<port>8080</port>
-							</ports>
-							<entryPoint>
-								<exec>
-									<arg>java</arg>
-									<arg>-jar</arg>
-									<arg>CATALINA_OPTS="-Xms64m -Xmx512m -XX:+UseTLAB -XX:+ResizeTLAB -XX:ReservedCodeCacheSize=64m  -XX:+UseCodeCacheFlushing"</arg>
-									<arg>-Dserver.contextPath=${project.artifactId}</arg>
-									<arg>/maven/${project.artifactId}-${project.version}.${project.packaging}</arg>
-								</exec>
-							</entryPoint>
-							<assembly>
-								<descriptorRef>artifact</descriptorRef>
-							</assembly>
-						</build>
-					</image>
-				</images>
-			</configuration>
-		</plugin>
+			<plugin>
+	            <groupId>io.fabric8</groupId>
+	            <artifactId>docker-maven-plugin</artifactId>
+	            <configuration>
+	                <images>
+	                    <image>
+							<name>${service.registry}/${project.artifactId}:${service.buildno}</name>
+	                        <build>
+	                            <from>java:8</from>
+								<volumes>
+				     				<volume>/tmp</volume>
+				            	</volumes>
+							    <ports>
+		                      		<port>8080</port>
+		                    	</ports>  
+								<cmd> 
+            						<shell>java \
+            						-Xms64m -Xmx512m -XX:+UseTLAB -XX:+ResizeTLAB -XX:ReservedCodeCacheSize=64m  -XX:+UseCodeCacheFlushing \
+            						-jar \
+            						-Dserver.contextPath=/${project.artifactId} \
+									/maven/${project.artifactId}-${project.version}.${project.packaging}
+									</shell>
+			 					</cmd>
+		                        <assembly>
+		                        	<descriptorRef>artifact</descriptorRef>
+								</assembly>
+	                        </build>
+	                    </image>
+	                </images>
+	            </configuration>
+			</plugin>
 			<!-- Package as an executable jar/war -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
