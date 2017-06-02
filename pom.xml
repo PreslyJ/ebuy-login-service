@@ -80,6 +80,9 @@
 							    <ports>
 		                      		<port>8080</port>
 		                    	</ports>  
+								<tags>
+									<tag>latest</tag>
+								</tags>
 								<cmd> 
             						<shell>java \
             						-Xms64m -Xmx512m -XX:+UseTLAB -XX:+ResizeTLAB -XX:ReservedCodeCacheSize=64m  -XX:+UseCodeCacheFlushing \
