@@ -84,12 +84,7 @@
 									<tag>latest</tag>
 								</tags>
 								<cmd> 
-            						<shell>java \
-            						-Xms64m -Xmx512m -XX:+UseTLAB -XX:+ResizeTLAB -XX:ReservedCodeCacheSize=64m  -XX:+UseCodeCacheFlushing \
-            						-jar \
-            						-Dserver.contextPath=/${project.artifactId} \
-									/maven/${project.artifactId}-${project.version}.${project.packaging}
-									</shell>
+            						<shell>java -Xms64m -Xmx512m -XX:+UseTLAB -XX:+ResizeTLAB -XX:ReservedCodeCacheSize=64m  -XX:+UseCodeCacheFlushing 	-jar -Dserver.contextPath=/${project.artifactId} /maven/${project.artifactId}-${project.version}.${project.packaging}</shell>
 			 					</cmd>
 		                        <assembly>
 		                        	<descriptorRef>artifact</descriptorRef>
