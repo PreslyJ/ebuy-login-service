@@ -5,7 +5,7 @@
 
 	<groupId>com.ctf.sims.login</groupId>
 	<artifactId>sims-login-service</artifactId>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<name>sims login service</name>
 	<version>1.0.0</version>
 
