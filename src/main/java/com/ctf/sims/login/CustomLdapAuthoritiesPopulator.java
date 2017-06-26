@@ -3,6 +3,7 @@ package com.ctf.sims.login;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,13 +28,12 @@ public class CustomLdapAuthoritiesPopulator implements LdapAuthoritiesPopulator 
 			if(string.toLowerCase().contains("cn=permissions")){
 				String parts[] = string.split(",");
 				String autho[]=parts[0].split("cn=");
-				System.out.println(autho[1]);	
-				authorities.add(new SimpleGrantedAuthority(autho[1]));
+				authorities.add(new SimpleGrantedAuthority(autho[1].replace(":","")));
 			}
 
 		}
 	      
-		return authorities;
+		return Collections.unmodifiableList(authorities);
     } 
 
 }

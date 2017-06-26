@@ -18,10 +18,6 @@ public class LdapSecurity extends WebSecurityConfigurerAdapter {
 	@Autowired
 	CustomLdapAuthoritiesPopulator customLdapAuthoritiesPopulator;
 	
-	/*@Autowired
-	AuthFilter authFilter;*/
-	
-	
 	@Value("${ldap.config.url:ldap://192.168.1.50:389}")
 	private String LDAP_URL;
 
@@ -37,38 +33,37 @@ public class LdapSecurity extends WebSecurityConfigurerAdapter {
 	@Value("${config.security.status:0}")
 	private int IS_SECURITY_ON;
 	
+	@Value("${config.security.exptime:860000}")
+	private long EXPIRATION_TIME;
+	
+	@Value("${config.security.headerstr:Authorization}")
+	private String HEADER_STRING;
+	
+	@Value("${config.security.token.prefix:Bearer}")
+	private String TOKEN_PREFIX;
+	
+	@Value("${config.security.key:ED9X8B78BA5E74B43194FD88E5EBE}")
+	private String SECRET;
+	
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-
-    //	httpSecurity.addFilterBefore(authFilter,BasicAuthenticationFilter.class);
     	
-    	/*if(IS_SECURITY_ON==0){
-	        httpSecurity.
-	        //httpBasic().and().
-	        	authorizeRequests()
-	        		.antMatchers("/login").permitAll()
-	        		.anyRequest().permitAll()
-	        		.and()
-	        		.addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),UsernamePasswordAuthenticationFilter.class)
-	        		 .addFilterBefore(new JWTAuthenticationFilter(),UsernamePasswordAuthenticationFilter.class)
-	        		.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-    	}*/
-
-    	httpSecurity.csrf().disable().authorizeRequests()
-        .antMatchers("/").permitAll()
-        .antMatchers(HttpMethod.POST, "/login").permitAll()
-        .anyRequest().authenticated()
-        .and()
-        // We filter the api/login requests
-        .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),
-                UsernamePasswordAuthenticationFilter.class)
-        // And filter other requests to check the presence of JWT in header
-        .addFilterBefore(new JWTAuthenticationFilter(),
-                UsernamePasswordAuthenticationFilter.class);
-    
-    
-    
-    
+    	TokenAuthenticationService.EXPIRATIONTIME=EXPIRATION_TIME;
+    	TokenAuthenticationService.HEADER_STRING=HEADER_STRING;
+    	TokenAuthenticationService.TOKEN_PREFIX=TOKEN_PREFIX;
+    	TokenAuthenticationService.SECRET=SECRET;
+    	
+    	httpSecurity.
+    		authorizeRequests()
+    		.antMatchers(HttpMethod.POST, "/login").permitAll()
+    		.anyRequest().fullyAuthenticated()
+    		.and()
+            .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),
+                    UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(new JWTAuthenticationFilter(),
+                    UsernamePasswordAuthenticationFilter.class)
+    		.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    	
     }
 
     @Override
@@ -83,15 +78,5 @@ public class LdapSecurity extends WebSecurityConfigurerAdapter {
 					.ldapAuthoritiesPopulator(customLdapAuthoritiesPopulator);			  
     }
     
-    
-  /*  @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-      // Create a default account
-      auth.inMemoryAuthentication()
-          .withUser("admin")
-          .password("admin123")
-          .roles("ADMIN");
-    }
-    */
     
 }
