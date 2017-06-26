@@ -5,9 +5,9 @@
 
 	<groupId>com.ctf.sims.login</groupId>
 	<artifactId>sims-login-service</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>sims login service</name>
-	<version>1.0.0</version>
+	<version>0.0.1-SNAPSHOT</version>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

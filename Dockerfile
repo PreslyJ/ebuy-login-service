@@ -1,6 +1,6 @@
-FROM tomcat:8.0.39-jre8
-RUN ls /usr/local/tomcat/conf/
-RUN cat /usr/local/tomcat/conf/tomcat-users.xml
-COPY ./target/sims-login-service-1.0.0.war /usr/local/tomcat/webapps/sims-login-service.war
-VOLUME /opt/tomcat/
-ENV CATALINA_OPTS="-Xms64m -Xmx512m -XX:+UseTLAB -XX:+ResizeTLAB -XX:ReservedCodeCacheSize=64m  -XX:+UseCodeCacheFlushing"
+FROM java:8 
+VOLUME /tmp
+ADD ./target/sims-login-service-0.0.1-SNAPSHOT.jar  sims-login-service.jar
+RUN sh -c 'touch /sims-subscriber-api.jar'
+EXPOSE 8080
+ENTRYPOINT [ "sh", "-c", "java -Xms512m -Xmx1024m -XX:+UseTLAB -XX:+ResizeTLAB -XX:ReservedCodeCacheSize=128m  -XX:+UseCodeCacheFlushing  -jar  -Dserver.contextPath=/sims-login-service /sims-login-service.jar" ]
