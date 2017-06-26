@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.ctf.sims.login.model.UserLogin;
 
@@ -76,6 +78,13 @@ public class LoginController  {
 	    
 		return new ResponseEntity(org.springframework.http.HttpStatus.FOUND);
 
+	}
+	
+	
+	@RequestMapping("/users")
+	public @ResponseBody String getUsers() {
+		return "{\"users\":[{\"firstname\":\"Richard\", \"lastname\":\"Feynman\"}," +
+           "{\"firstname\":\"Marie\",\"lastname\":\"Curie\"}]}";
 	}
 	
 }

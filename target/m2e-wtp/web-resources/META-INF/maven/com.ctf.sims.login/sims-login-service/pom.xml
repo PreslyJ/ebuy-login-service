@@ -55,16 +55,59 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- Optional, for bootstrap -->
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootstrap</artifactId>
-			<version>3.3.7</version>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+
+		<dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-ldap</artifactId>
+        </dependency>
+
+		<dependency>
+		    <groupId>io.jsonwebtoken</groupId>
+		    <artifactId>jjwt</artifactId>
+		    <version>0.7.0</version>
+		</dependency>
+	
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
 
 	</dependencies>
 	<build>
 		<plugins>
+			<plugin>
+	            <groupId>io.fabric8</groupId>
+	            <artifactId>docker-maven-plugin</artifactId>
+	            <configuration>
+	                <images>
+	                    <image>
+							<name>${service.registry}/${project.artifactId}:${service.buildno}</name>
+	                        <build>
+	                            <from>java:8</from>
+								<volumes>
+				     				<volume>/tmp</volume>
+				            	</volumes>
+							    <ports>
+		                      		<port>8080</port>
+		                    	</ports>  
+								<tags>
+									<tag>latest</tag>
+								</tags>
+								<cmd> 
+            						<shell>java -Xms64m -Xmx512m -XX:+UseTLAB -XX:+ResizeTLAB -XX:ReservedCodeCacheSize=64m  -XX:+UseCodeCacheFlushing 	-jar -Dserver.contextPath=/${project.artifactId} /maven/${project.artifactId}-${project.version}.${project.packaging}</shell>
+			 					</cmd>
+		                        <assembly>
+		                        	<descriptorRef>artifact</descriptorRef>
+								</assembly>
+	                        </build>
+	                    </image>
+	                </images>
+	            </configuration>
+			</plugin>
 			<!-- Package as an executable jar/war -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
