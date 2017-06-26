@@ -19,15 +19,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-//@Component
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
-  //@Autowired
-//  private AuthenticationManager authenticationManager;  	
-	
 	
   public JWTLoginFilter(String url, AuthenticationManager authManager) {
     super(new AntPathRequestMatcher(url));
@@ -37,24 +34,27 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
   @Override
   public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException, IOException, ServletException {
     AccountCredentials creds = new ObjectMapper().readValue(req.getInputStream(), AccountCredentials.class);
-    List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+    /*List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
     int i=0;
     while(i<120){
     	authorities.add(new SimpleGrantedAuthority("lajdlkdjslkdjslksajdlksajdlaksjdlksajdlsajdlsajdlahdksagjdkhgasdfsajdfgsadfhgsadhf"));
     	i++;
     }
+    */
+    Authentication auth=  getAuthenticationManager().authenticate(
+            new UsernamePasswordAuthenticationToken(
+                creds.getUsername(),
+                creds.getPassword(),
+                Collections.emptyList()
+            )
+        );
     
-    return getAuthenticationManager().authenticate(
-        new UsernamePasswordAuthenticationToken(
-            creds.getUsername(),
-            creds.getPassword(),
-            authorities
-        )
-    );
+    return auth;
+    
   }
 
   @Override
   protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth) throws IOException, ServletException {
-    TokenAuthenticationService.addAuthentication(res, auth.getName());
+    TokenAuthenticationService.addAuthentication(res, auth);
   }
 }

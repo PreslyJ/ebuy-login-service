@@ -28,7 +28,7 @@ public class LoginController  {
 	@SuppressWarnings("rawtypes")
 	@ModelAttribute
 	@CrossOrigin
-	@PostMapping("/login")
+	@PostMapping("/loginT")
 	public ResponseEntity  redirectToTarget(@ModelAttribute UserLogin userLogin,HttpServletResponse response){
 		
 		try {
@@ -63,7 +63,7 @@ public class LoginController  {
 
 	@SuppressWarnings("rawtypes")
 	@CrossOrigin
-	@PostMapping("/logout")
+	@PostMapping("/logoutT")
 	public ResponseEntity  logout(HttpServletRequest request,HttpServletResponse response){
 
 		Cookie[] cookies = request.getCookies();

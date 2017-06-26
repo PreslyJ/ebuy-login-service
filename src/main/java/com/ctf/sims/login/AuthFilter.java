@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
-@Component
-public class AuthFilter extends GenericFilterBean{
+//@Component
+public class AuthFilter {//extends GenericFilterBean{{
 
-	@Override
+/*	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		
 		HttpServletRequest req = (HttpServletRequest) request;
@@ -33,5 +33,5 @@ public class AuthFilter extends GenericFilterBean{
         chain.doFilter(mutableRequest, response);
 		
 	}
-
+*/
 }
