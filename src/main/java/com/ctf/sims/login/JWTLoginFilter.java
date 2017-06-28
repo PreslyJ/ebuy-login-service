@@ -25,23 +25,26 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
   @Override
   public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException, IOException, ServletException {
-    
-	AccountCredentials creds = new ObjectMapper().readValue(req.getInputStream(), AccountCredentials.class);
-    
-	Authentication auth=  getAuthenticationManager().authenticate(
-            new UsernamePasswordAuthenticationToken(
-                creds.getUsername(),
-                creds.getPassword(),
-                Collections.emptyList()
-            )
-        );
-    
-    return auth;
-    
+
+	if(req.getContentLength()!=-1)
+	{		
+		AccountCredentials creds = new ObjectMapper().readValue(req.getInputStream(), AccountCredentials.class);	    
+		Authentication auth=  getAuthenticationManager().authenticate(
+	            new UsernamePasswordAuthenticationToken(
+	                creds.getUsername(),
+	                creds.getPassword(),
+	                Collections.emptyList()
+	            )
+	        );
+	    
+	    return auth;
+	}
+	return null;
   }
 
   @Override
   protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth) throws IOException, ServletException {
     TokenAuthenticationService.addAuthentication(res, auth);
   }
+
 }

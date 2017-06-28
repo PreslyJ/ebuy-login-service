@@ -33,7 +33,7 @@ public class LdapSecurity extends WebSecurityConfigurerAdapter {
 	@Value("${config.security.status:0}")
 	private int IS_SECURITY_ON;
 	
-	@Value("${config.security.exptime:860000}")
+	@Value("${config.security.exptime:18000000}")
 	private long EXPIRATION_TIME;
 	
 	@Value("${config.security.headerstr:Authorization}")
@@ -55,13 +55,11 @@ public class LdapSecurity extends WebSecurityConfigurerAdapter {
     	
     	httpSecurity.
     		authorizeRequests()
+    		.antMatchers(HttpMethod.GET, "/health").permitAll()
     		.antMatchers(HttpMethod.POST, "/login").permitAll()
     		.anyRequest().fullyAuthenticated()
     		.and()
-            .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),
-                    UsernamePasswordAuthenticationFilter.class)
-            .addFilterBefore(new JWTAuthenticationFilter(),
-                    UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),UsernamePasswordAuthenticationFilter.class)
     		.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     	
     }

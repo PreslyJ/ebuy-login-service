@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -31,12 +32,21 @@ class TokenAuthenticationService {
 
       String JWT =  Jwts.builder()
               .setClaims(claims)
+              .setIssuedAt(new Date(System.currentTimeMillis()))
               .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
               .signWith(SignatureAlgorithm.HS512, SECRET)
               .compact();
       
       res.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + JWT);
-	  
+      res.addHeader("Access-Control-Expose-Headers","Authorization");
+	  try {
+		  res.setContentType("application/json");
+		  res.getWriter().write("{\"status\":\"success\"}");
+		  res.getWriter().flush();
+		  res.getWriter().close();
+	  } catch (IOException e) {
+		  e.printStackTrace();
+	  }
   }
 
   static Authentication getAuthentication(HttpServletRequest request) {
