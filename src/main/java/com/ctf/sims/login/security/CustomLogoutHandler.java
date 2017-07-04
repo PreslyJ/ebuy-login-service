@@ -1,11 +1,17 @@
 package com.ctf.sims.login.security;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.Jwts;
 
@@ -25,6 +31,18 @@ public class CustomLogoutHandler implements LogoutHandler {
     	
 		TokenAuthenticationService.delRedisKey("TOKEN_"+jti);
         
+		try {
+			
+			  response.setContentType("application/json");
+			  
+			  Map<String, String> tokenMap = new HashMap<String, String>();
+		      tokenMap.put("status", "success");
+		      new ObjectMapper().writeValue(response.getWriter(), tokenMap);
+				  
+		} catch (IOException e) {
+			  e.printStackTrace();
+		}
+		
     }
 	
 }
