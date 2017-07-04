@@ -1,4 +1,4 @@
-package com.ctf.sims.login;
+package com.ctf.sims.login.security;
 
 import com.ctf.sims.login.dto.AccountCredentials;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,6 +39,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	    
 	    return auth;
 	}
+	 res.addHeader("Access-Control-Allow-Origin","*");
 	return null;
   }
 

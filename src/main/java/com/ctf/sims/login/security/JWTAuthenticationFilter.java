@@ -1,4 +1,4 @@
-package com.ctf.sims.login;
+package com.ctf.sims.login.security;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;

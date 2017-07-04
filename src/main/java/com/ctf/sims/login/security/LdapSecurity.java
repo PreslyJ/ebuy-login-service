@@ -1,9 +1,12 @@
-package com.ctf.sims.login;
+package com.ctf.sims.login.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.ldap.core.LdapTemplate;
+import org.springframework.ldap.core.support.LdapContextSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,6 +20,9 @@ public class LdapSecurity extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	CustomLdapAuthoritiesPopulator customLdapAuthoritiesPopulator;
+
+	@Autowired
+	private CustomLogoutHandler customLogoutHandler;
 	
 	@Value("${ldap.config.url:ldap://192.168.1.50:389}")
 	private String LDAP_URL;
@@ -45,6 +51,13 @@ public class LdapSecurity extends WebSecurityConfigurerAdapter {
 	@Value("${config.security.key:ED9X8B78BA5E74B43194FD88E5EBE}")
 	private String SECRET;
 	
+	@Value("${redis.config.host:192.168.1.50}")
+	private String  REDIS_HOST;
+	
+	@Value("${redis.config.port:6379}")
+	private int  REDIS_PORT;
+	
+	
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
     	
@@ -52,15 +65,21 @@ public class LdapSecurity extends WebSecurityConfigurerAdapter {
     	TokenAuthenticationService.HEADER_STRING=HEADER_STRING;
     	TokenAuthenticationService.TOKEN_PREFIX=TOKEN_PREFIX;
     	TokenAuthenticationService.SECRET=SECRET;
+    	TokenAuthenticationService.REDIS_HOST=REDIS_HOST;
+    	TokenAuthenticationService.REDIS_PORT=REDIS_PORT;
     	
     	httpSecurity.
     		authorizeRequests()
     		.antMatchers(HttpMethod.GET, "/health").permitAll()
     		.antMatchers(HttpMethod.POST, "/login").permitAll()
+    		.antMatchers(HttpMethod.POST, "/getAuthToken").permitAll()
     		.anyRequest().fullyAuthenticated()
     		.and()
             .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),UsernamePasswordAuthenticationFilter.class)
-    		.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    		.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+    		.and()
+    		.logout()
+    		.addLogoutHandler(customLogoutHandler);
     	
     }
 
@@ -76,5 +95,26 @@ public class LdapSecurity extends WebSecurityConfigurerAdapter {
 					.ldapAuthoritiesPopulator(customLdapAuthoritiesPopulator);			  
     }
     
-    
+    @Bean
+	public LdapContextSource getContextSource() throws Exception{
+		
+    	LdapContextSource ldapContextSource = new LdapContextSource();
+		ldapContextSource.setUrl(LDAP_URL);
+		ldapContextSource.setUserDn(MANAGER_DN);
+		ldapContextSource.setPassword(MANAGER_PWD);
+		
+		return ldapContextSource;
+		
+	}
+	
+	@Bean
+	public LdapTemplate ldapTemplate() throws Exception{
+		
+		LdapTemplate ldapTemplate = new LdapTemplate(getContextSource());
+		ldapTemplate.setIgnorePartialResultException(true);
+		ldapTemplate.setContextSource(getContextSource());
+		
+		return ldapTemplate;
+	}
+	
 }
