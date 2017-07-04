@@ -59,7 +59,7 @@ public class TokenAuthenticationService {
     	        .setClaims(refreshClaim)
     	        .setId(jti)
     	        .setIssuedAt(new Date(System.currentTimeMillis()))
-    	        .setExpiration(new Date(System.currentTimeMillis() + 864_000_000))
+    	        .setExpiration(new Date(System.currentTimeMillis() + 172_800_000)) //2 days for refresh token
     	        .signWith(SignatureAlgorithm.HS512, SECRET)
     	      .compact();
       

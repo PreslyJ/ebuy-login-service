@@ -29,34 +29,6 @@ public class UserAttributesMapper implements AttributesMapper<Object> {
 			
 		}
 		
-		
-		/*Iterator iter= (Iterator) groups.getAll();
-		*/
-		
-		
-		
-/*		List<String> wordList = Arrays.asList(groups.getAll());  	 
-*/
-		
-/*		for (String string : wordList) {
-				
-			if(string.toLowerCase().contains("cn=permissions")){
-				String parts[] = string.split(",");
-				String autho[]=parts[0].split("cn=");
-				authorities.add(new SimpleGrantedAuthority(autho[1].replace(":","")));
-			}
-*/
-	      
-		//return Collections.unmodifiableList(authorities);
-		
-		
-		
-/*		if (attributes.get("") == null){
-			System.out.println("Telephone is null for " + commonName);
-		}else{
-			String telephone = attributes.get("telephoneNumber").get().toString();
-			userObject.setTelephone(telephone);
-		}*/
 		return userObject;
 	}
 

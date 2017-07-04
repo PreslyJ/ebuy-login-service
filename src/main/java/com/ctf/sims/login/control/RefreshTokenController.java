@@ -43,34 +43,4 @@ public class RefreshTokenController {
 
     }
     
-    
-    
-   /* @RequestMapping(method=RequestMethod.POST,value="/logout")
-    public @ResponseBody String invalidateToken(HttpServletRequest request, HttpServletResponse response) {
-    	
-    	System.out.println("OK..........");
-    	
-    	String token = request.getHeader("REFRESH");
-        
-    	String jti=Jwts.parser()
-  		      .setSigningKey(TokenAuthenticationService.SECRET)
-  		      .parseClaimsJws(token).getBody().getId();
-    	
-    	if(jti==null || TokenAuthenticationService.getRedisKey("TOKEN_"+jti)==null )
-    		throw new RuntimeException("Invalid JWT TOKEN");
-    		
-    	
-    	try {
-			TokenAuthenticationService.delRedisKey("TOKEN_"+jti);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "logout failed";
-		}
-    	
-        return "success";
-
-    }*/
-    
-    
-    
 }

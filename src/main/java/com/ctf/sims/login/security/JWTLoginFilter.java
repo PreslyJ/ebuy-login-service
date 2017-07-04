@@ -19,33 +19,35 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 	
   public JWTLoginFilter(String url, AuthenticationManager authManager) {
-    super(new AntPathRequestMatcher(url));
-    setAuthenticationManager(authManager);
+	    super(new AntPathRequestMatcher(url));
+	    setAuthenticationManager(authManager);
   }
 
   @Override
   public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException, IOException, ServletException {
 
-	if(req.getContentLength()!=-1)
-	{		
-		AccountCredentials creds = new ObjectMapper().readValue(req.getInputStream(), AccountCredentials.class);	    
-		Authentication auth=  getAuthenticationManager().authenticate(
-	            new UsernamePasswordAuthenticationToken(
-	                creds.getUsername(),
-	                creds.getPassword(),
-	                Collections.emptyList()
-	            )
-	        );
-	    
-	    return auth;
-	}
-	 res.addHeader("Access-Control-Allow-Origin","*");
-	return null;
+		if(req.getContentLength()!=-1)
+		{		
+			AccountCredentials creds = new ObjectMapper().readValue(req.getInputStream(), AccountCredentials.class);	    
+			Authentication auth=  getAuthenticationManager().authenticate(
+		            new UsernamePasswordAuthenticationToken(
+		                creds.getUsername(),
+		                creds.getPassword(),
+		                Collections.emptyList()
+		            )
+		        );
+		    
+			return auth;
+		}
+		
+		res.addHeader("Access-Control-Allow-Origin","*");
+
+		return null;
   }
 
   @Override
   protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth) throws IOException, ServletException {
-    TokenAuthenticationService.addAuthentication(res, auth);
+	  	TokenAuthenticationService.addAuthentication(res, auth);
   }
 
 }

@@ -39,7 +39,7 @@ public class LdapSecurity extends WebSecurityConfigurerAdapter {
 	@Value("${config.security.status:0}")
 	private int IS_SECURITY_ON;
 	
-	@Value("${config.security.exptime:18000000}")
+	@Value("${config.security.exptime:1800000}")
 	private long EXPIRATION_TIME;
 	
 	@Value("${config.security.headerstr:Authorization}")
