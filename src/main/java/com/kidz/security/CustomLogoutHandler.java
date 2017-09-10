@@ -1,4 +1,4 @@
-package com.ctf.sims.login.security;
+package com.kidz.security;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -26,11 +26,11 @@ public class CustomLogoutHandler implements LogoutHandler {
   		      .setSigningKey(TokenAuthenticationService.SECRET)
   		      .parseClaimsJws(token).getBody().getId();
     	
-    	if(jti==null || TokenAuthenticationService.getRedisKey("TOKEN_"+jti)==null )
+ /*   	if(jti==null || TokenAuthenticationService.getRedisKey("TOKEN_"+jti)==null )
     		throw new RuntimeException("Invalid JWT TOKEN");
     	
 		TokenAuthenticationService.delRedisKey("TOKEN_"+jti);
-        
+        */
 		try {
 			
 			  response.setContentType("application/json");

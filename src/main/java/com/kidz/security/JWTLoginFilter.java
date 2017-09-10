@@ -1,7 +1,9 @@
-package com.ctf.sims.login.security;
+package com.kidz.security;
 
-import com.ctf.sims.login.dto.AccountCredentials;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kidz.dto.AccountCredentials;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

@@ -1,9 +1,8 @@
-package com.ctf.sims.login.security;
+package com.kidz.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import redis.clients.jedis.Jedis;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -40,7 +39,7 @@ public class TokenAuthenticationService {
       
       
       String jti=UUID.randomUUID().toString();
-      try {
+      /*try {
 		setRedisKey("TOKEN_"+jti);
       } catch (Exception e1) {
 		e1.printStackTrace();
@@ -51,7 +50,7 @@ public class TokenAuthenticationService {
 			new RuntimeException("Exception occured while generating JTI ==> ",e);
 		}
 		
-      } 
+      }*/ 
      
       
       
@@ -129,7 +128,7 @@ public class TokenAuthenticationService {
   
   
   
-  public static void setRedisKey(String keyName)  throws Exception{
+/*  public static void setRedisKey(String keyName)  throws Exception{
 		
 		Jedis jedis = new Jedis(REDIS_HOST, REDIS_PORT,30000);
 		jedis.set(keyName, "");
@@ -157,6 +156,6 @@ public class TokenAuthenticationService {
 		jedis.del(keyName);
 		jedis.close();
 		
-  }
+  }*/
   
 }

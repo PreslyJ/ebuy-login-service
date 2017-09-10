@@ -1,12 +1,9 @@
-package com.ctf.sims.login.security;
+package com.kidz.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.ldap.core.LdapTemplate;
-import org.springframework.ldap.core.support.LdapContextSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,11 +15,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class LdapSecurity extends WebSecurityConfigurerAdapter {
 	
-	@Autowired
-	CustomLdapAuthoritiesPopulator customLdapAuthoritiesPopulator;
 
 	@Autowired
 	private CustomLogoutHandler customLogoutHandler;
+	
+	@Autowired
+    private CustomUserDetailsService userDetailsService;
+
+    @Autowired
+    private AccountAuthenticatoinProvider accountAuthenticationProvider;
+	
 	
 	@Value("${ldap.config.url:ldap://192.168.1.50:389}")
 	private String LDAP_URL;
@@ -82,8 +84,14 @@ public class LdapSecurity extends WebSecurityConfigurerAdapter {
     		.addLogoutHandler(customLogoutHandler);
     	
     }
-
+    
     @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService);
+        auth.authenticationProvider(accountAuthenticationProvider);
+    }
+
+/*    @Override
     protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
     	authenticationManagerBuilder
 			.ldapAuthentication().contextSource().url(LDAP_URL)
@@ -115,6 +123,6 @@ public class LdapSecurity extends WebSecurityConfigurerAdapter {
 		ldapTemplate.setContextSource(getContextSource());
 		
 		return ldapTemplate;
-	}
+	}*/
 	
 }

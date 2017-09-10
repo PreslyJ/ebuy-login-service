@@ -1,4 +1,4 @@
-package com.ctf.sims.login.dto;
+package com.kidz.dto;
 
 public class AccountCredentials {
 
