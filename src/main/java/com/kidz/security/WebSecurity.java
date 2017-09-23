@@ -11,9 +11,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+
 @Configuration
 @EnableWebSecurity
-public class LdapSecurity extends WebSecurityConfigurerAdapter {
+public class WebSecurity extends WebSecurityConfigurerAdapter {
 	
 
 	@Autowired
@@ -25,21 +26,8 @@ public class LdapSecurity extends WebSecurityConfigurerAdapter {
     @Autowired
     private AccountAuthenticatoinProvider accountAuthenticationProvider;
 	
-	
-	@Value("${ldap.config.url:ldap://192.168.1.50:389}")
-	private String LDAP_URL;
-
-	@Value("${ldap.config.managerdn:uid=admin,cn=users,cn=accounts,dc=example,dc=test}")
-	private String MANAGER_DN;
-	
-	@Value("${ldap.config.managerpwd:admin123}")
-	private String MANAGER_PWD;
-
-	@Value("${ldap.config.basedn:cn=users,cn=accounts,dc=example,dc=test}")
-	private String SEARCH_BASE;
-	
 	@Value("${config.security.status:0}")
-	private int IS_SECURITY_ON;
+	private int securityEnabled;
 	
 	@Value("${config.security.exptime:1800000}")
 	private long EXPIRATION_TIME;
@@ -53,13 +41,6 @@ public class LdapSecurity extends WebSecurityConfigurerAdapter {
 	@Value("${config.security.key:ED9X8B78BA5E74B43194FD88E5EBE}")
 	private String SECRET;
 	
-	@Value("${redis.config.host:192.168.1.50}")
-	private String  REDIS_HOST;
-	
-	@Value("${redis.config.port:6379}")
-	private int  REDIS_PORT;
-	
-	
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
     	
@@ -67,17 +48,21 @@ public class LdapSecurity extends WebSecurityConfigurerAdapter {
     	TokenAuthenticationService.HEADER_STRING=HEADER_STRING;
     	TokenAuthenticationService.TOKEN_PREFIX=TOKEN_PREFIX;
     	TokenAuthenticationService.SECRET=SECRET;
-    	TokenAuthenticationService.REDIS_HOST=REDIS_HOST;
-    	TokenAuthenticationService.REDIS_PORT=REDIS_PORT;
     	
     	httpSecurity.
     		authorizeRequests()
     		.antMatchers(HttpMethod.GET, "/health").permitAll()
     		.antMatchers(HttpMethod.POST, "/login").permitAll()
-    		.antMatchers(HttpMethod.POST, "/getAuthToken").permitAll()
-    		.anyRequest().fullyAuthenticated()
-    		.and()
+    		.antMatchers(HttpMethod.POST, "/getAuthToken").permitAll();
+        	if(securityEnabled==1){
+    			httpSecurity.authorizeRequests().anyRequest().authenticated();
+    			httpSecurity.addFilterBefore(new JWTAuthenticationFilter(),UsernamePasswordAuthenticationFilter.class);
+    		}else
+    			httpSecurity.authorizeRequests().anyRequest().permitAll();
+    	
+    		httpSecurity
             .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(new JWTAuthenticationFilter(),UsernamePasswordAuthenticationFilter.class)
     		.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     		.and()
     		.logout()

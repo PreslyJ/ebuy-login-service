@@ -1,13 +1,15 @@
 package com.kidz.service;
 
 
-import java.util.Collection;
+import java.util.Map;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.kidz.model.Account;
 
 public interface UserService {
 
-    Collection<Account> findAll();
+    Page<Account> findAll(Pageable pageable,Map<String, Object> filterMap);
 
     Account findByUsername(String userename);
 

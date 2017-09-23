@@ -10,13 +10,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import com.kidz.model.Role;
 import com.kidz.repository.UserRepository;
-
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -49,7 +46,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return userDetails;
     }
 
-    private final static class UserRepositoryUserDetails extends com.kidz.model.Account implements UserDetails {
+/*    private final static class UserRepositoryUserDetails extends com.kidz.model.Account implements UserDetails {
 
         private static final long serialVersionUID = 1L;
 
@@ -98,4 +95,4 @@ public class CustomUserDetailsService implements UserDetailsService {
 			return true;
 		}
     }
-}
+*/}

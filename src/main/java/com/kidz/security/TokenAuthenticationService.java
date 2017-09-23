@@ -26,9 +26,6 @@ public class TokenAuthenticationService {
   public static String SECRET = "ThisIsASecret";
   static String TOKEN_PREFIX = "Bearer";
   public static String HEADER_STRING = "Authorization";
-  public static String  REDIS_HOST;
-  public static int  REDIS_PORT;
-  
   
   static void addAuthentication(HttpServletResponse res, Authentication auth) {
    
@@ -37,22 +34,7 @@ public class TokenAuthenticationService {
       Claims refreshClaim = Jwts.claims().setSubject(auth.getName());
       refreshClaim.put("scopes", Arrays.asList("ROLE_REFRESH_TOKEN"));
       
-      
-      String jti=UUID.randomUUID().toString();
-      /*try {
-		setRedisKey("TOKEN_"+jti);
-      } catch (Exception e1) {
-		e1.printStackTrace();
-		jti=UUID.randomUUID().toString();
-		try {
-			setRedisKey("TOKEN_"+jti);
-		} catch (Exception e) {
-			new RuntimeException("Exception occured while generating JTI ==> ",e);
-		}
-		
-      }*/ 
-     
-      
+      String jti=UUID.randomUUID().toString();   
       
       String refreshToken = Jwts.builder()
     	        .setClaims(refreshClaim)
@@ -125,37 +107,5 @@ public class TokenAuthenticationService {
               .signWith(SignatureAlgorithm.HS512, SECRET)
               .compact();
   }
-  
-  
-  
-/*  public static void setRedisKey(String keyName)  throws Exception{
-		
-		Jedis jedis = new Jedis(REDIS_HOST, REDIS_PORT,30000);
-		jedis.set(keyName, "");
-		jedis.close();
-		
-  }
-  
-  public static String getRedisKey(String keyName) {
-		
-	  try {
-			Jedis jedis = new Jedis(REDIS_HOST, REDIS_PORT,30000);
-			String key= jedis.get(keyName);
-			jedis.close();
-			return key;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return null;
-  }
-  
-  public static void delRedisKey(String keyName){
-		
-		Jedis jedis = new Jedis(REDIS_HOST, REDIS_PORT,30000);
-		jedis.del(keyName);
-		jedis.close();
-		
-  }*/
   
 }

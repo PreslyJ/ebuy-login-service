@@ -3,7 +3,6 @@ package com.kidz.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kidz.dto.AccountCredentials;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,36 +19,38 @@ import java.util.Collections;
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 	
-  public JWTLoginFilter(String url, AuthenticationManager authManager) {
-	    super(new AntPathRequestMatcher(url));
-	    setAuthenticationManager(authManager);
-  }
+	  public JWTLoginFilter(String url, AuthenticationManager authManager) {
+		    super(new AntPathRequestMatcher(url));
+		    setAuthenticationManager(authManager);
+	  }
 
-  @Override
-  public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException, IOException, ServletException {
-
-		if(req.getContentLength()!=-1)
-		{		
-			AccountCredentials creds = new ObjectMapper().readValue(req.getInputStream(), AccountCredentials.class);	    
-			Authentication auth=  getAuthenticationManager().authenticate(
-		            new UsernamePasswordAuthenticationToken(
-		                creds.getUsername(),
-		                creds.getPassword(),
-		                Collections.emptyList()
-		            )
-		        );
-		    
-			return auth;
-		}
-		
-		res.addHeader("Access-Control-Allow-Origin","*");
-
-		return null;
-  }
-
-  @Override
-  protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth) throws IOException, ServletException {
-	  	TokenAuthenticationService.addAuthentication(res, auth);
-  }
+	  @Override
+	  public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException, IOException, ServletException {
+	
+			if(req.getContentLength()!=-1)
+			{		
+				AccountCredentials creds = new ObjectMapper().readValue(req.getInputStream(), AccountCredentials.class);	    
+				
+					
+				Authentication auth=  getAuthenticationManager().authenticate(
+			            new UsernamePasswordAuthenticationToken(
+			                creds.getUsername(),
+			                creds.getPassword(),
+			                Collections.emptyList()
+			            )
+			        );
+			    
+				return auth;
+			}
+			
+			res.addHeader("Access-Control-Allow-Origin","*");
+	
+			return null;
+	  }
+	
+	  @Override
+	  protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth) throws IOException, ServletException {
+		  	TokenAuthenticationService.addAuthentication(res, auth);
+	  }
 
 }
