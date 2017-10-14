@@ -4,8 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import com.kidz.model.Account;
-import com.kidz.model.Role;
+
+import com.kidz.login.model.Account;
+import com.kidz.login.model.Role;
 import com.kidz.service.RoleService;
 import com.kidz.service.UserService;
 

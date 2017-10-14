@@ -5,7 +5,7 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.kidz.model.Role;
+import com.kidz.login.model.Role;
 
 public interface RoleService {
 

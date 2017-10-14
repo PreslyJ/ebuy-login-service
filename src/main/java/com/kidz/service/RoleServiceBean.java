@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kidz.model.Role;
+import com.kidz.login.model.Role;
 import com.kidz.repository.RoleRepository;
 
 @Service

@@ -10,7 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import com.kidz.model.Role;
+
+import com.kidz.login.model.Role;
 import com.kidz.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        com.kidz.model.Account user = userRepository.findByUsername(username);
+        com.kidz.login.model.Account user = userRepository.findByUsername(username);
 
         if (user == null) 
             throw new UsernameNotFoundException("User " + username + " not found.");

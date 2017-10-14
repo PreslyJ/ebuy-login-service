@@ -4,6 +4,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.kidz.login.model.Role;
+
 import java.util.HashSet;
 import java.util.Set;
 
