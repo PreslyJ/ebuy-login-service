@@ -1,5 +1,7 @@
 package com.kidz.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,9 +33,9 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value="/getAllUsers", method= RequestMethod.POST)
-    public Page<Account> getAllUsers(Pageable pageable){
+    public Page<Account> getAllUsers(Pageable pageable,@RequestBody Map<String, Object> filterMap){
 
-    	return accountService.findAll(pageable,null);
+    	return accountService.findAll(pageable,filterMap);
       
         
     }
@@ -64,6 +66,14 @@ public class AuthenticationController {
 
     	roleService.createRole(role);
     
+    }
+ 
+    @RequestMapping(value="/getAllRoles", method= RequestMethod.POST)
+    public Page<Role> getAllRoles(Pageable pageable,@RequestBody Map<String, Object> filterMap){
+
+    	return roleService.findAll(pageable,filterMap);
+      
+        
     }
     
 }

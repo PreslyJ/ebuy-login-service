@@ -60,6 +60,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     		}else
     			httpSecurity.authorizeRequests().anyRequest().permitAll();
     	
+        	httpSecurity.cors().disable();
+        	
     		httpSecurity
             .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(new JWTAuthenticationFilter(),UsernamePasswordAuthenticationFilter.class)
