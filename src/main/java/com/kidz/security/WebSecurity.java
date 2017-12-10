@@ -65,10 +65,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     		httpSecurity
             .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(new JWTAuthenticationFilter(),UsernamePasswordAuthenticationFilter.class)
-    		.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-    		.and()
-    		.logout()
-    		.addLogoutHandler(customLogoutHandler);
+    		.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     	
     }
     

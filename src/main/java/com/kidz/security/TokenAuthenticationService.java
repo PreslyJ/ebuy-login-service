@@ -46,7 +46,7 @@ public class TokenAuthenticationService {
       
       res.addHeader(HEADER_STRING, JWT);
       res.addHeader("REFRESH",refreshToken);
-      res.addHeader("Access-Control-Expose-Headers","Authorization");
+      res.addHeader("Access-Control-Expose-Headers","Authorization,REFRESH");
 	  try {
 		  res.setContentType("application/json");
 		  

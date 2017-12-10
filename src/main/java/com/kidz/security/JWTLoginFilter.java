@@ -27,6 +27,12 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	  @Override
 	  public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException, IOException, ServletException {
 	
+			res.setHeader("Access-Control-Allow-Origin",req.getHeader("Origin"));
+		    res.setHeader("Access-Control-Allow-Credentials", "true");
+		    res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+		    res.setHeader("Access-Control-Allow-Headers", "REFRESH,Access-Control-Allow-Origin,Access-Control-Allow-Methods,Access-Control-Allow-Credentials,Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,Vary");
+			
+		  	
 			if(req.getContentLength()!=-1)
 			{		
 				AccountCredentials creds = new ObjectMapper().readValue(req.getInputStream(), AccountCredentials.class);	    
@@ -42,9 +48,6 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 			    
 				return auth;
 			}
-			
-			res.addHeader("Access-Control-Allow-Origin","*");
-	
 			return null;
 	  }
 	

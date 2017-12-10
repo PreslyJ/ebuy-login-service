@@ -41,6 +41,12 @@ public class RefreshTokenController {
     	//bind the access token to header
     	response.addHeader(TokenAuthenticationService.HEADER_STRING, jwt);
     	
+    	response.setHeader("Access-Control-Allow-Origin","*");
+    	response.setHeader("Access-Control-Allow-Credentials", "true");
+    	response.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    	response.setHeader("Access-Control-Allow-Headers", "REFRESH,Access-Control-Allow-Origin,Access-Control-Allow-Methods,Access-Control-Allow-Credentials,Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,Vary");
+    	response.addHeader("Access-Control-Expose-Headers","Authorization,REFRESH");
+    	
         return "success";
 
     }
