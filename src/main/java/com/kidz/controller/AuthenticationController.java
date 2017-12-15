@@ -2,6 +2,9 @@ package com.kidz.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,8 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import com.kidz.login.model.Account;
 import com.kidz.login.model.Role;
+import com.kidz.security.TokenAuthenticationService;
 import com.kidz.service.RoleService;
 import com.kidz.service.UserService;
+
+import io.jsonwebtoken.Jwts;
 
 
 @RestController
@@ -75,5 +81,21 @@ public class AuthenticationController {
       
         
     }
+    
+    @RequestMapping(method=RequestMethod.POST,value="/getUserDetails")
+	public Account refreshToken(HttpServletRequest request, HttpServletResponse response) {
+		
+    	//get refresh token from request header
+    	String token = request.getHeader("REFRESH");
+        
+    	//extract username from refresh token with SECRET KEY  
+    	String username=Jwts.parser()
+    			.setSigningKey(TokenAuthenticationService.SECRET)
+    			.parseClaimsJws(token).getBody().getSubject();
+    	
+		
+		return accountService.findByUsername(username);
+		
+	}
     
 }
