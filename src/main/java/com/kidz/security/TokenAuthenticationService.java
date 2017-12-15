@@ -24,7 +24,7 @@ import java.util.UUID;
 public class TokenAuthenticationService {
   static long EXPIRATIONTIME = 864_000_000; // 10 days
   public static String SECRET = "ThisIsASecret";
-  static String TOKEN_PREFIX = "Bearer";
+  public static String TOKEN_PREFIX = "Bearer";
   public static String HEADER_STRING = "Authorization";
   
   static void addAuthentication(HttpServletResponse res, Authentication auth) {

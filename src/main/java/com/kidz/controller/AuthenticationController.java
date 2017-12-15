@@ -86,13 +86,12 @@ public class AuthenticationController {
 	public Account refreshToken(HttpServletRequest request, HttpServletResponse response) {
 		
     	//get refresh token from request header
-    	String token = request.getHeader("REFRESH");
+    	String token = request.getHeader(TokenAuthenticationService.HEADER_STRING);
         
     	//extract username from refresh token with SECRET KEY  
     	String username=Jwts.parser()
     			.setSigningKey(TokenAuthenticationService.SECRET)
-    			.parseClaimsJws(token).getBody().getSubject();
-    	
+    			.parseClaimsJws(token.replace(TokenAuthenticationService.TOKEN_PREFIX, "")).getBody().getSubject();
 		
 		return accountService.findByUsername(username);
 		
