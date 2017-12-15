@@ -62,7 +62,7 @@ public class AuthenticationController {
     	return roleService.findByCode(code);
     
     }
-
+    
     @RequestMapping(value="/findRoleById/{roleId}", method= RequestMethod.GET)
     public Role findRoleById(@PathVariable Long roleId){
 

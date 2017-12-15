@@ -16,10 +16,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 	
-
-	@Autowired
-	private CustomLogoutHandler customLogoutHandler;
-	
 	@Autowired
     private CustomUserDetailsService userDetailsService;
 
@@ -55,7 +51,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     		.antMatchers(HttpMethod.POST, "/login").permitAll()
     		.antMatchers(HttpMethod.POST, "/getAuthToken").permitAll();
         	if(securityEnabled==1){
-    			httpSecurity.authorizeRequests().anyRequest().authenticated();
+    			httpSecurity.authorizeRequests().anyRequest().fullyAuthenticated();
     			httpSecurity.addFilterBefore(new JWTAuthenticationFilter(),UsernamePasswordAuthenticationFilter.class);
     		}else
     			httpSecurity.authorizeRequests().anyRequest().permitAll();
