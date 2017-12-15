@@ -36,14 +36,18 @@ public class UserServiceImpl implements UserService {
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public Account createNewAccount(Account account) {
 
-        Role role = roleService.findByCode("ROLE_USER");
+        boolean hasRole=false;
         
-        account.getRoles().add(role);
-
-        // Validate the password
-        if (account.getPassword().length() < 8)
-            throw new EntityExistsException("password should be greater than 8 characters");
-
+        for (Role role1 : account.getRoles()) 	
+        	if(role1.getCode().equals("ROLE_USER"))
+        		hasRole=true;
+        
+        
+        if(!hasRole){
+            Role role = roleService.findByCode("ROLE_USER");
+            account.getRoles().add(role);
+        }
+        
         account.setPassword(new BCryptPasswordEncoder().encode(account.getPassword()));
         
         return accountRepository.save(account);
@@ -52,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Page<Account> findAll(Pageable pageable, Map<String, Object> filterMap) {
-		return accountRepository.findAll(pageable);
+		return accountRepository.getAllUsers(pageable);
 	}
     
 }

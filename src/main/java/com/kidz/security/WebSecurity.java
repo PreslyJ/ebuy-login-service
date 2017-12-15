@@ -75,38 +75,4 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(accountAuthenticationProvider);
     }
 
-/*    @Override
-    protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-    	authenticationManagerBuilder
-			.ldapAuthentication().contextSource().url(LDAP_URL)
-			.managerDn(MANAGER_DN)
-	         .managerPassword(MANAGER_PWD)
-				.and()
-					.userSearchBase(SEARCH_BASE)
-					.userSearchFilter("uid={0}")
-					.ldapAuthoritiesPopulator(customLdapAuthoritiesPopulator);			  
-    }
-    
-    @Bean
-	public LdapContextSource getContextSource() throws Exception{
-		
-    	LdapContextSource ldapContextSource = new LdapContextSource();
-		ldapContextSource.setUrl(LDAP_URL);
-		ldapContextSource.setUserDn(MANAGER_DN);
-		ldapContextSource.setPassword(MANAGER_PWD);
-		
-		return ldapContextSource;
-		
-	}
-	
-	@Bean
-	public LdapTemplate ldapTemplate() throws Exception{
-		
-		LdapTemplate ldapTemplate = new LdapTemplate(getContextSource());
-		ldapTemplate.setIgnorePartialResultException(true);
-		ldapTemplate.setContextSource(getContextSource());
-		
-		return ldapTemplate;
-	}*/
-	
 }

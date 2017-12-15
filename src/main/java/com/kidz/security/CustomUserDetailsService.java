@@ -30,10 +30,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (user == null) 
             throw new UsernameNotFoundException("User " + username + " not found.");
         
-/*
+
         if (user.getRoles() == null || user.getRoles().isEmpty()) 
             throw new UsernameNotFoundException("User not authorized.");
-*/
+
 
         Collection<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
         for (Role role : user.getRoles())

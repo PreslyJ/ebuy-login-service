@@ -26,7 +26,7 @@ public class RefreshTokenController {
     public @ResponseBody String getAccessToken(HttpServletRequest request, HttpServletResponse response) {
     	
     	//get refresh token from request header
-    	String token = request.getHeader("REFRESH");
+    	String token = request.getHeader("refresh");
         
     	//extract username from refresh token with SECRET KEY  
     	String username=Jwts.parser()

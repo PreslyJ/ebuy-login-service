@@ -31,7 +31,10 @@ public class AuthenticationController {
 
     @RequestMapping(value="/register", method= RequestMethod.POST)
     public Account register(@RequestBody Account account){
-
+    	
+    	if(accountService.findByUsername(account.getUsername())!=null)
+    		throw new RuntimeException("usernameExists");	
+    	
         Account createdAccount = accountService.createNewAccount(account);
       
         return createdAccount;
