@@ -35,7 +35,15 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public Account createNewAccount(Account account) {
+    	
+    	Account acc=findByUsername(account.getUsername());
+    	
+    	if(acc!=null &&  (account.getPassword()!=null && account.getPassword().equals(acc.getPassword())) ){
+    		account.setPassword(acc.getPassword());
+    	}else
+            account.setPassword(new BCryptPasswordEncoder().encode(account.getPassword()));
 
+    	
         boolean hasRole=false;
         
         for (Role role1 : account.getRoles()) 	
@@ -48,7 +56,6 @@ public class UserServiceImpl implements UserService {
             account.getRoles().add(role);
         }
         
-        account.setPassword(new BCryptPasswordEncoder().encode(account.getPassword()));
         
         return accountRepository.save(account);
     
