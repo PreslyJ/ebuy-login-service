@@ -55,7 +55,7 @@ public class AuthenticationController {
     }
     
     
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+   // @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/getAllUsers", method= RequestMethod.POST)
     public Page<Account> getAllUsers(Pageable pageable,@RequestBody Map<String, Object> filterMap){
 
