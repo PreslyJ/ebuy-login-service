@@ -40,6 +40,17 @@ public class AuthenticationController {
         return createdAccount;
     
     }
+    
+    @RequestMapping(value="/editUser", method= RequestMethod.POST)
+    public Account editUser(@RequestBody Account account){
+    	    	
+        Account createdAccount = accountService.createNewAccount(account);
+      
+        return createdAccount;
+    
+    }
+    
+    
 
     @RequestMapping(value="/getAllUsers", method= RequestMethod.POST)
     public Page<Account> getAllUsers(Pageable pageable,@RequestBody Map<String, Object> filterMap){
