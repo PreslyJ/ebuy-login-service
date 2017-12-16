@@ -51,7 +51,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     		.antMatchers(HttpMethod.POST, "/login").permitAll()
     		.antMatchers(HttpMethod.POST, "/getAuthToken").permitAll();
         	if(securityEnabled==1){
-    			httpSecurity.authorizeRequests().anyRequest().fullyAuthenticated();
+        		httpSecurity.
+        		authorizeRequests()
+        		.antMatchers("/register").fullyAuthenticated()
+        		.antMatchers("/editUser").fullyAuthenticated()
+        		.antMatchers("/getAllUsers").fullyAuthenticated();
+        		
+    			httpSecurity.authorizeRequests().anyRequest().permitAll();
     			httpSecurity.addFilterBefore(new JWTAuthenticationFilter(),UsernamePasswordAuthenticationFilter.class);
     		}else
     			httpSecurity.authorizeRequests().anyRequest().permitAll();

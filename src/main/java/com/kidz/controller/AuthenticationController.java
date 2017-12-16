@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
 import com.kidz.login.model.Account;
@@ -18,7 +20,7 @@ import com.kidz.service.UserService;
 
 import io.jsonwebtoken.Jwts;
 
-
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @RestController
 @RequestMapping(value="/auth")
 public class AuthenticationController {
@@ -29,6 +31,7 @@ public class AuthenticationController {
     @Autowired
     private RoleService roleService;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/register", method= RequestMethod.POST)
     public Account register(@RequestBody Account account){
     	
@@ -41,6 +44,7 @@ public class AuthenticationController {
     
     }
     
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/editUser", method= RequestMethod.POST)
     public Account editUser(@RequestBody Account account){
     	    	
@@ -51,7 +55,7 @@ public class AuthenticationController {
     }
     
     
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/getAllUsers", method= RequestMethod.POST)
     public Page<Account> getAllUsers(Pageable pageable,@RequestBody Map<String, Object> filterMap){
 
